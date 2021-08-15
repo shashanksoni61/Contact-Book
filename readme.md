@@ -175,3 +175,59 @@ jwt.sign(
   }
 );
 ```
+
+---
+
+### Login the User
+
+> first validate the form input
+
+```js
+router.post(
+  '/',
+  [
+    check('email', 'Please Enter A Valid Email').isEmail(),
+    check('password', 'Password Is Required').exists(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+```
+
+> Find Existing User and match the password
+
+```js
+const { email, password } = req.body;
+
+    try {
+      let user = await User.findOne({ email });
+
+      if (!user) {
+        return res.status(400).json({ msg: 'User Does Not Exist' });
+      }
+
+      //comparing hashed password with entered password
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res.status(400).json({ msg: 'Password Does not Match' });
+      }
+```
+
+> Now Send the Token
+
+```js
+jwt.sign(
+  payload,
+  config.get('JWTSecret'),
+  {
+    expiresIn: 7200,
+  },
+  (err, token) => {
+    if (err) throw err;
+    res.json({ token });
+  }
+);
+```
