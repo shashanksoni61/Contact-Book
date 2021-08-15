@@ -110,3 +110,68 @@ router.post(
   }
 );
 ```
+
+---
+
+### Creating New User in database **routes/users.js**
+
+> first destructure form input / requset body
+
+```js
+const { name, email, password } = req.body;
+```
+
+> Checking if user already exist & then Encrypt the password and Create user
+
+```js
+try {
+  let user = await User.findOne({ email: email });
+  if (user) {
+    return res.status(400).json({ msg: 'User already exist' });
+  }
+
+  user = new User({
+    name: name,
+    email: email,
+    password: password,
+  });
+
+  //encrypting the password
+  const salt = await bcrypt.genSalt(10);
+
+  user.password = await bcrypt.hash(password, salt);
+
+  await user.save();
+
+  res.send('user saved');
+} catch (err) {
+  console.log(err.message);
+  res.status(500).send('Server Error');
+}
+```
+
+---
+
+### Using JsonWebToken
+
+> first create a payload
+
+```js
+const payload = { user{id:user.id}} // or anything
+```
+
+> then sign it with JWT Secret
+
+```js
+jwt.sign(
+  payload,
+  config.get('JWTSecret'),
+  {
+    expiresIn: 7200,
+  },
+  (err, token) => {
+    if (err) throw err;
+    res.json({ token });
+  }
+);
+```
