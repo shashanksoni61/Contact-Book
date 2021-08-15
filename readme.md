@@ -178,7 +178,7 @@ jwt.sign(
 
 ---
 
-### Login the User
+### Login the User **routes/auth.js**
 
 > first validate the form input
 
@@ -230,4 +230,25 @@ jwt.sign(
     res.json({ token });
   }
 );
+```
+
+---
+
+### get the Logged in user via Auth Middleware **middleware/auth.js**
+
+> first check if Token Header exist or not
+
+```js
+const token = req.header('x-auth-token');
+if (!token) return res.json({ msg: 'No token exist' });
+```
+
+> now if token exist verify the token and forware the Req/Res Cycle to next route
+
+```js
+try {
+    const decoded = jwt.verify(token, config.get('JWTSecret'));
+    req.user = decoded.user;
+    next();
+}
 ```

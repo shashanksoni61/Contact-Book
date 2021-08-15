@@ -24,7 +24,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // @route       POST api/v1/auth
-// @desc        Authenticate the user and get JWT token
+// @desc        Authenticate/Log In the user and get JWT token
 // @access      private
 router.post(
   '/',
