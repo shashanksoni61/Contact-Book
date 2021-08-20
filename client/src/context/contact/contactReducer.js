@@ -19,24 +19,28 @@ export default function contactReducer(state, action) {
         ...state,
         contacts: [...state.contacts, payload],
       };
+
     case DELETE_CONTACT:
       //   console.log('deleteContent dispatched from reducer with payload', payload);
       return {
         ...state,
         contacts: state.contacts.filter(contact => contact.id !== payload),
       };
+
     case SET_CURRENT:
       console.log('set current dispatched from reducer with payload', payload);
       return {
         ...state,
         current: payload,
       };
+
     case CLEAR_CURRENT:
       console.log('clear current dispatched from reducer');
       return {
         ...state,
         current: null,
       };
+
     case UPDATE_CONTACT: {
       console.log('update contact dispatched from reducer');
       return {
@@ -49,6 +53,21 @@ export default function contactReducer(state, action) {
         }),
       };
     }
+
+    case FILTER_CONTACTS:
+      return {
+        ...state,
+        filteredResult: state.contacts.filter(contact => {
+          const regex = new RegExp(`${payload}`, 'gi');
+          return contact.name.match(regex) || contact.email.match(regex);
+        }),
+      };
+
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filteredResult: null,
+      };
     default:
       return state;
   }
