@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import ContactContext from '../../context/contact/contactContext';
-import ContactForm from './ContactForm';
 import ContactItem from './ContactItem';
 
 const Contacts = () => {
@@ -16,14 +16,20 @@ const Contacts = () => {
   }
   return (
     <Fragment>
-      {filteredResult &&
-        filteredResult.map(contact => (
-          <ContactItem key={contact.id} contact={contact} />
-        ))}
-      {!filteredResult &&
-        contacts.map(contact => (
-          <ContactItem key={contact.id} contact={contact} />
-        ))}
+      <TransitionGroup>
+        {filteredResult &&
+          filteredResult.map(contact => (
+            <CSSTransition key={contact.id} timeout={500} classNames='item' r>
+              <ContactItem contact={contact} />
+            </CSSTransition>
+          ))}
+        {!filteredResult &&
+          contacts.map(contact => (
+            <CSSTransition key={contact.id} timeout={500} classNames='item'>
+              <ContactItem contact={contact} />
+            </CSSTransition>
+          ))}
+      </TransitionGroup>
     </Fragment>
   );
 };
