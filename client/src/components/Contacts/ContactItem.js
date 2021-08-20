@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ContactItem = ({ contact: { id, name, email, phone, type } }) => {
   return (
@@ -9,7 +10,9 @@ const ContactItem = ({ contact: { id, name, email, phone, type } }) => {
           style={{ float: 'right' }}
           className={
             'badge ' +
-            (type === 'professional' ? 'badge-success' : 'badge-primary')
+            (type.toLowerCase() === 'professional'
+              ? 'badge-success'
+              : 'badge-primary')
           }
         >
           {type[0].toUpperCase() + type.slice(1)}
@@ -31,6 +34,10 @@ const ContactItem = ({ contact: { id, name, email, phone, type } }) => {
       <button className='btn btn-danger btn-sm border-radius'>Delete</button>
     </div>
   );
+};
+
+ContactItem.propTypes = {
+  contact: PropTypes.object.isRequired,
 };
 
 export default ContactItem;

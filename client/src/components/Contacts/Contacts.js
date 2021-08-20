@@ -1,11 +1,12 @@
 import React, { Fragment, useContext } from 'react';
 import ContactContext from '../../context/contact/contactContext';
+import ContactForm from './ContactForm';
 import ContactItem from './ContactItem';
 
 const Contacts = () => {
-  const contactContext = useContext(ContactContext);
-
-  const { contacts } = contactContext;
+  const { contacts } = useContext(ContactContext);
+  // you can right away destructre it or you can do this
+  // const contactContext = useContext(ContactContext);
 
   return (
     <Fragment>
