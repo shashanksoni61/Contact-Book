@@ -9,6 +9,7 @@ import {
   FILTER_CONTACTS,
   CLEAR_FILTER,
   CLEAR_CURRENT,
+  CONTACT_ERROR,
 } from '../types';
 
 export default function contactReducer(state, action) {
@@ -67,6 +68,11 @@ export default function contactReducer(state, action) {
       return {
         ...state,
         filteredResult: null,
+      };
+    case CONTACT_ERROR:
+      return {
+        ...state,
+        error: payload,
       };
     default:
       return state;
