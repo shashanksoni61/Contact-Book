@@ -56,7 +56,8 @@ export default function contactReducer(state, action) {
       return {
         ...state,
         contacts: state.contacts.map(contact => {
-          if (contact.id === payload.id) {
+          console.log('payload update contact from reducer ', payload);
+          if (contact._id === payload._id) {
             return payload;
           }
           return contact;

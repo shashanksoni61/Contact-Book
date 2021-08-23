@@ -100,13 +100,32 @@ const ContactState = props => {
   };
 
   // 5. Update contact
-  const updateContact = current => {
+  const updateContact = async contact => {
     console.log('update contact fired from context state/provider');
-    console.log('with updated contact', current);
-    dispatch({
-      type: UPDATE_CONTACT,
-      payload: current,
-    });
+    console.log('with updated contact', contact);
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const res = await axios.put(
+        `/api/v1/contacts/${contact._id}`,
+        contact,
+        config
+      );
+
+      dispatch({
+        type: UPDATE_CONTACT,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: CONTACT_ERROR,
+        payload: err.response.msg,
+      });
+    }
   };
 
   // 6. Filter Contacts
