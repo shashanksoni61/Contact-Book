@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import contactContext from '../../context/contact/contactContext';
 
 const ContactItem = ({ contact }) => {
-  const { id, name, email, phone, type } = contact;
+  const { _id, name, email, phone, type } = contact;
   const { deleteContact, setCurrent, clearCurrent } =
     useContext(contactContext);
 
@@ -44,7 +44,7 @@ const ContactItem = ({ contact }) => {
       <button
         className='btn btn-danger btn-sm border-radius'
         onClick={() => {
-          deleteContact(id);
+          deleteContact(_id);
           clearCurrent();
         }}
       >

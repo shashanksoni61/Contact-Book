@@ -25,7 +25,7 @@ export default function contactReducer(state, action) {
     case ADD_CONTACT:
       return {
         ...state,
-        contacts: [...state.contacts, payload],
+        contacts: [payload, ...state.contacts],
         loading: false,
       };
 
@@ -33,7 +33,7 @@ export default function contactReducer(state, action) {
       //   console.log('deleteContent dispatched from reducer with payload', payload);
       return {
         ...state,
-        contacts: state.contacts.filter(contact => contact.id !== payload),
+        contacts: state.contacts.filter(contact => contact._id !== payload),
         loading: false,
       };
 
