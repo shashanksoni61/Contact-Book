@@ -42,11 +42,18 @@ const Login = props => {
       <form onSubmit={formSubmit}>
         <div className='form-group'>
           <label htmlFor='email'>Email</label>
-          <input type='email' name='email' value={email} onChange={formInput} />
+          <input
+            id='email'
+            type='email'
+            name='email'
+            value={email}
+            onChange={formInput}
+          />
         </div>
         <div className='form-group'>
           <label htmlFor='password'>Password</label>
           <input
+            id='password'
             type='password'
             name='password'
             value={password}

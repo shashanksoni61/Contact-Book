@@ -14,11 +14,12 @@ import {
   CLEAR_FILTER,
   CLEAR_CURRENT,
   CONTACT_ERROR,
+  GET_CONTACTS,
 } from '../types';
 
 const ContactState = props => {
   const initialState = {
-    contacts: [],
+    contacts: null,
     current: null,
     filteredResult: null,
     error: null,
@@ -27,6 +28,22 @@ const ContactState = props => {
   const [state, dispatch] = useReducer(contactReducer, initialState);
 
   // Actions
+  // Get Contacts
+  const getContacts = async () => {
+    try {
+      const res = await axios.get('/api/v1/contacts');
+      dispatch({
+        type: GET_CONTACTS,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: CONTACT_ERROR,
+        payload: err.response.msg,
+      });
+    }
+  };
+
   // 1. Add contact
   const addContact = async contact => {
     console.log('Add contact Fired from context state/provider');
@@ -100,6 +117,9 @@ const ContactState = props => {
     });
   };
 
+  // 8. Clear Contacts from state after logout
+  const clearContacts = () => dispatch({ type: CLEAR_CONTACTS });
+
   return (
     <ContactContext.Provider
       value={{
@@ -107,6 +127,7 @@ const ContactState = props => {
         current: state.current,
         filteredResult: state.filteredResult,
         error: state.error,
+        getContacts,
         addContact,
         deleteContact,
         setCurrent,
@@ -114,6 +135,7 @@ const ContactState = props => {
         updateContact,
         filterContacts,
         clearFilter,
+        clearContacts,
       }}
     >
       {props.children}
